@@ -6,12 +6,20 @@ import { ChatWindow } from "@/components/chat-window";
 import { Button } from "@/components/ui/button";
 import { useChatStore } from "@/lib/hooks/use-chat-store";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { activeChat, addMessage, apiKey, createChat, chats } = useChatStore();
+  const { activeChat, addMessage, apiKey, createChat, chats, setApiKey } = useChatStore();
+
+  // Add this effect to set the API key from env when the component mounts
+  useEffect(() => {
+    // Check if API key exists in environment and set it if available
+    if (process.env.NEXT_PUBLIC_GEMINI_API_KEY && !apiKey) {
+      setApiKey(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+    }
+  }, [apiKey, setApiKey]);
 
   const handleSubmit = async (message: string) => {
     if (!apiKey) {
