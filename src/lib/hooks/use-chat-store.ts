@@ -16,13 +16,11 @@ interface Chat {
 interface ChatStore {
   chats: Chat[];
   activeChat: string | null;
-  apiKey: string | null;
   createChat: () => void;
   deleteChat: (id: string) => void;
   clearChats: () => void;
   setActiveChat: (id: string) => void;
   addMessage: (chatId: string, message: Message) => void;
-  setApiKey: (key: string) => void;
   updateChatTitle: (id: string, title: string) => void;
 }
 
@@ -31,8 +29,6 @@ export const useChatStore = create<ChatStore>()(
     (set, get) => ({
       chats: [],
       activeChat: null,
-      apiKey: typeof window !== "undefined" ? 
-              process.env.NEXT_PUBLIC_GEMINI_API_KEY || null : null,
       createChat: () => {
         const newChat: Chat = {
           id: Date.now().toString(),
@@ -65,9 +61,6 @@ export const useChatStore = create<ChatStore>()(
             : chat
           ),
         }));
-      },
-      setApiKey(key) {
-        set({ apiKey: key });
       },
       updateChatTitle: (id, title) => {
         set((state) => ({

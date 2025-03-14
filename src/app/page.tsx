@@ -6,35 +6,15 @@ import { ChatWindow } from "@/components/chat-window";
 import { Button } from "@/components/ui/button";
 import { useChatStore } from "@/lib/hooks/use-chat-store";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { activeChat, addMessage, apiKey, createChat, chats, setApiKey } = useChatStore();
-
-  // Add this effect to set the API key from env when the component mounts
-  useEffect(() => {
-    // Check if API key exists in environment and set it if available
-    if (process.env.NEXT_PUBLIC_GEMINI_API_KEY && !apiKey) {
-      setApiKey(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
-    }
-  }, [apiKey, setApiKey]);
+  const { activeChat, addMessage, createChat, chats } = useChatStore();
 
   const handleSubmit = async (message: string) => {
-    if (!apiKey) {
-      addMessage(activeChat!, {
-        content: "To use this chat, you need to set up your Gemini API key. You can get one by:\n\n" +
-                "1. Going to Google AI Studio (https://makersuite.google.com/app/apikey)\n" +
-                "2. Creating a new API key\n" +
-                "3. Opening the `.env` file in your project\n" +
-                "4. Replacing `your_gemini_api_key_here` with your actual API key\n" +
-                "5. Restarting the development server\n\n" +
-                "Once you've set up your API key, you can start chatting!",
-        isUser: false,
-      });
-      return;
-    }
+    if (!message.trim()) return;
 
     addMessage(activeChat!, { content: message, isUser: true });
     setIsLoading(true);
@@ -46,14 +26,17 @@ export default function Home() {
         body: JSON.stringify({ message }),
       });
 
-      if (!response.ok) throw new Error("Failed to get eresponse");
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response");
+      }
+
       addMessage(activeChat!, { content: data.response, isUser: false });
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error:", error);
       addMessage(activeChat!, {
-        content: "Error. Please check your API key and try again",
+        content: "Sorry, there was an error processing your request. Please try again later.",
         isUser: false,
       });
     } finally {
