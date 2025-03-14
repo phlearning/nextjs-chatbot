@@ -14,21 +14,11 @@ A modern, responsive AI chatbot built with Next.js, featuring real-time response
 - 🔄 Loading states and error handling
 - 🎨 Sleek UI using Tailwind CSS and Shadcn UI components
 
-## Demo Video
+## Demo
 
-<div align="center">
-  <video width="80%" style="max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" controls>
-    <source src="public/demo_chatbot.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
-
-<details>
-<summary>💡 Can't see the video? Click here for a GIF alternative</summary>
 <div align="center">
   <img src="public/demo_chatbot.gif" alt="Chatbot Demo" width="80%" style="max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
 </div>
-</details>
 
 ## Technologies Used
 
