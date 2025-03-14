@@ -50,3 +50,37 @@ yarn install
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+### Running the Application
+
+To start the development server, run:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Open your browser and navigate to `http://localhost:3000` to see the application in action.
+
+### Building for Production
+
+To build the application for production, run:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+This will create an optimized production build in the `.next` directory.
+
+To start the production server, run:
+
+```bash
+npm start
+# or
+yarn start
+```
+
+Make sure to set the necessary environment variables in your hosting environment.
