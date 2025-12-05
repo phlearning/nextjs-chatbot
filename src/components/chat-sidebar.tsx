@@ -12,16 +12,25 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 interface ChatSidebarProps {
   isOpen: boolean;
+  onClose?: () => void;
 }
 
-export function ChatSidebar({ isOpen }: ChatSidebarProps) {
+export function ChatSidebar({ isOpen, onClose }: ChatSidebarProps) {
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const { chats, activeChat, createChat, deleteChat, clearChats, setActiveChat, updateChatTitle } = useChatStore();
 
+  // Helper function to close only on mobile
+  const handleMobileClose = () => {
+    if (window.innerWidth < 768) {
+      onClose?.();
+    }
+  };
+
   const handleCreateChat = () => {
     createChat();
     toast.success("New chat created");
+    handleMobileClose(); // Close sidebar only on mobile after creating chat
   };
 
   const handleDeleteChat = (id: string) => {
@@ -32,6 +41,7 @@ export function ChatSidebar({ isOpen }: ChatSidebarProps) {
   const handleClearChats = () => {
     clearChats();
     toast.success("All chats cleared");
+    handleMobileClose(); // Close sidebar only on mobile after clearing chats
   };
 
   const handleEditTitle = (id: string, currentTitle: string) => {
@@ -51,9 +61,9 @@ export function ChatSidebar({ isOpen }: ChatSidebarProps) {
   return (
     <div className={`${
       isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-    } absolute inset-0 h-full border-r bg-card p-4 transition-opacity duration-300`}>
+    } h-full border-r bg-card p-3 transition-opacity duration-300 md:p-4`}>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Chats</h1>
+        <h1 className="text-lg font-semibold md:text-xl">Chats</h1>
         <Button variant="outline" size="icon" onClick={handleCreateChat}>
           <Plus className="size-4" />
         </Button>
@@ -86,8 +96,11 @@ export function ChatSidebar({ isOpen }: ChatSidebarProps) {
                 </form>
               ) : (
                 <button
-                  className="flex-1 text-left truncate"
-                  onClick={() => setActiveChat(chat.id)}
+                  className="flex-1 text-left truncate text-sm md:text-base"
+                  onClick={() => {
+                    setActiveChat(chat.id);
+                    handleMobileClose(); // Close sidebar only on mobile after selecting chat
+                  }}
                   onDoubleClick={() => handleEditTitle(chat.id, chat.title)}
                 >
                   {chat.title}
@@ -106,7 +119,7 @@ export function ChatSidebar({ isOpen }: ChatSidebarProps) {
         </div>
       </ScrollArea>
 
-      <div className="absolute bottom-4 left-4 flex w-56 items-center justify-between">
+      <div className="absolute bottom-3 left-3 flex w-[calc(100%-1.5rem)] items-center justify-between md:bottom-4 md:left-4 md:w-56">
         <ThemeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -42,8 +42,8 @@ export function ChatWindow({ onCreateChat }: ChatMessageProps) {
   const currentChat = chats.find((chat) => chat.id === activeChat);
 
   return (
-    <ScrollArea className="h-[calc(100vh-8rem)]">
-      <div className="space-y-4 p-4">
+    <ScrollArea className="h-[calc(100vh-8rem)] w-full max-w-full">
+      <div className="flex w-full max-w-full flex-col space-y-2 overflow-hidden p-2 md:space-y-4 md:p-4">
         {currentChat?.messages.map((message, index) => (
           <ChatMessage 
             key={index}

@@ -10,13 +10,14 @@ interface ChatMessageProps {
 export function ChatMessage({ message, isUser }: ChatMessageProps) {
   return (
     <div className={cn(
-      "flex w-full items-start gap-4 p-4", isUser ? "bg-muted/50" : "bg-background"
+      "flex w-full max-w-full items-start gap-2 p-3 md:gap-4 md:p-4", 
+      isUser ? "bg-muted/50" : "bg-background"
       )}>
-      <div className="flex size-8 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow">
-        {isUser ? <User className="size-4" /> : <Bot className="size-4" />}
+      <div className="flex size-7 shrink-0 select-none items-center justify-center rounded-md border bg-background shadow md:size-8">
+        {isUser ? <User className="size-3 md:size-4" /> : <Bot className="size-3 md:size-4" />}
       </div>
-      <div className="flex-1 space-y-2">
-        <div className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0">
+      <div className="min-w-0 flex-1 break-words">
+        <div className="prose prose-sm max-w-none break-words dark:prose-invert prose-p:leading-relaxed prose-p:break-words prose-pre:p-0 prose-pre:max-w-full prose-pre:overflow-x-auto prose-code:break-all prose-li:break-words md:prose-base">
           <ReactMarkdown>{message}</ReactMarkdown>
         </div>
       </div>

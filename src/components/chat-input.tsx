@@ -25,8 +25,8 @@ export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
   };
 
   return (
-    <div className="border-t p-4">
-      <form onSubmit={handleSubmit} className="flex gap-4">
+    <div className="w-full max-w-full border-t p-2 md:p-4">
+      <form onSubmit={handleSubmit} className="flex w-full gap-2 md:gap-4">
         <Input
           placeholder={
             activeChat
@@ -36,8 +36,14 @@ export function ChatInput({ onSubmit, isLoading }: ChatInputProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading || !activeChat}
+          className="min-w-0 flex-1 text-base" // Prevent zoom on iOS
         />
-        <Button type="submit" disabled={isLoading || !activeChat}>
+        <Button 
+          type="submit" 
+          disabled={isLoading || !activeChat}
+          size="icon"
+          className="size-9 shrink-0 md:size-10"
+        >
           <SendHorizonal className="size-4" />
         </Button>
       </form>
